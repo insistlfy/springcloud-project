@@ -1,0 +1,13 @@
+*.iml
+*.ipr
+*.iws
+*.lck
+*.log
+target/
+.ideaDataSources
+dataSources
+.idea
+.idea/
+*test.java
+*/test/
+*.attach_pid*
