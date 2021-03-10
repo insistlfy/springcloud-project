@@ -11,6 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * EurekaApplication
  * 描述 ：
  * ① ： @EnableSwagger2 ，该注解开启swagger支持
+ * ② ： @EnableEurekaServer，该注解开启Eureka支持
  *
  * @author lfy
  * @date 2021/3/10
