@@ -1,0 +1,13 @@
+server:
+  port: 8000
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    #表示是否注册Eureka服务器,因为自身作为服务注册中心，所以为false
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 0
