@@ -4,6 +4,7 @@ package org.lfy;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
@@ -16,6 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  **/
 @EnableSwagger2
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@EnableEurekaServer
 public class EurekaApplication {
 
     public static void main(String[] args) {
