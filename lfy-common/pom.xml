@@ -92,7 +92,7 @@
         </dependency>
     </dependencies>
 
-    <!--springCloud 版本控制-->
+    <!--springCloud 版本控制,注意与springBoot版本的对应-->
     <dependencyManagement>
         <dependencies>
             <dependency>
