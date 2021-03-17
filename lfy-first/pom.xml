@@ -10,21 +10,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lfy-eureka</artifactId>
-    <name>lfy-eureka</name>
-    <description>注册中心</description>
+    <artifactId>lfy-first</artifactId>
+    <name>lfy-first</name>
+    <description>first-server</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-        </dependency>
-    </dependencies>
 
     <build>
         <finalName>${project.name}</finalName>
@@ -36,4 +29,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

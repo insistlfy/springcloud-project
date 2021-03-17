@@ -1,9 +1,9 @@
 server:
-  port: 8000
+  port: 9001
 
 spring:
   application:
-    name: lfy-eureka
+    name: lfy-first
 
 eureka:
   instance:
@@ -16,7 +16,7 @@ eureka:
     #是否从Eureka服务端获取注册信息
     fetch-registry: true
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8000/eureka/
   server:
     wait-time-in-ms-when-sync-empty: 0
     #清理间隔，一旦服务down掉，则默认60秒（此处2秒）才注销该服务
