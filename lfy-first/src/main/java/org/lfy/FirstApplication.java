@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
  * FirstApplication
- *
+ * ① ： @EnableEurekaClient ： 标识EurekaClient
  * @author lfy
  * @date 2021/3/17
  **/
