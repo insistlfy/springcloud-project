@@ -11,12 +11,12 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * @author lfy
  * @date 2021/3/17
  **/
-//@Slf4j
+@Slf4j
 @EnableEurekaClient
 @SpringBootApplication
 public class SecondApplication {
     public static void main(String[] args) {
         SpringApplication.run(SecondApplication.class);
-//        log.info("SecondApplication start successfully...");
+        log.info("SecondApplication start successfully...");
     }
 }
