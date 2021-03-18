@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lfy-gateway</artifactId>
-    <name>lfy-gateway</name>
-    <description>网关</description>
+    <artifactId>lfy-zuul</artifactId>
+    <name>lfy-zuul</name>
+    <description>网关Zuul</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

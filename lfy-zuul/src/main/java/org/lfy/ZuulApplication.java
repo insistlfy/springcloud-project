@@ -6,18 +6,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
- * GatewayApplication
+ * ZuulApplication
  *
  * @author lfy
- * @date 2021/3/17
+ * @date 2021/3/18
  **/
 @Slf4j
 @EnableEurekaClient
 @SpringBootApplication
-public class GatewayApplication {
-
+public class ZuulApplication {
     public static void main(String[] args) {
-        SpringApplication.run(GatewayApplication.class);
-        log.info("GatewayApplication start successfully...");
+        SpringApplication.run(ZuulApplication.class);
+        log.info("ZuulApplication start successfully...");
     }
 }
