@@ -1,10 +1,21 @@
 server:
   port: 9000
-
 spring:
   application:
     name: lfy-gateway
-
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: url-proxy-1
+          uri: https://blog.csdn.net
+          predicates:
+           - Path=/first/**
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
 eureka:
   instance:
     hostname: localhost
