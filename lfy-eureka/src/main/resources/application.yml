@@ -4,10 +4,10 @@ server:
 spring:
   application:
     name: lfy-eureka
-#  security:
-#    user:
-#      name: admin
-#      password: admin
+  security:
+    user:
+      name: admin
+      password: admin
 
 eureka:
   instance:
@@ -20,7 +20,7 @@ eureka:
     #是否从Eureka服务端获取注册信息
     fetch-registry: false
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
   server:
     wait-time-in-ms-when-sync-empty: 0
     #清理间隔，一旦服务down掉，则默认60秒（此处2秒）才注销该服务
