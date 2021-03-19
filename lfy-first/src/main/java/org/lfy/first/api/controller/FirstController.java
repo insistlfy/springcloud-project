@@ -13,22 +13,22 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021/3/18
  **/
 @RestController
-@RequestMapping("/v1/first/")
+@RequestMapping("/v1/")
 @Api(tags = "【FirstController】")
 public class FirstController {
 
     @Autowired
     private IFirstService firstService;
 
-    @ApiOperation("first request")
-    @PostMapping("first")
-    public String first() {
+    @ApiOperation("【FirstController --> test1】")
+    @PostMapping("test1")
+    public String test1() {
         return "Hello World!";
     }
 
-    @ApiOperation("second request")
-    @GetMapping("second")
-    public String second(@RequestParam("id") Long id) {
+    @ApiOperation("【FirstController --> test2】")
+    @GetMapping("test2")
+    public String test2(@RequestParam("id") Long id) {
         return firstService.second(id);
     }
 }

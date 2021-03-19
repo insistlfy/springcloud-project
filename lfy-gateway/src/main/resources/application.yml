@@ -7,15 +7,15 @@ spring:
     gateway:
       discovery:
         locator:
+          #开启Gateway服务注册中心服务发现
           enabled: true
       routes:
         - id: url-proxy-1
           uri: https://blog.csdn.net
           predicates:
-           - Path=/first/**
-          filters:
-            - StripPrefix=1
-            - AddResponseHeader=X-Response-Default-Foo, Default-Bar
+            - Path=/first
+
+
 eureka:
   instance:
     hostname: localhost
