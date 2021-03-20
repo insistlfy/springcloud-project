@@ -8,6 +8,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * SecondApplication
+ * ① ：@EnableEurekaClient，让注册中心发现，并扫描到改服务
+ * ② ：@EnableFeignClients，启用Feign客户端
  *
  * @author lfy
  * @date 2021/3/17
