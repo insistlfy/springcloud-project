@@ -59,6 +59,8 @@
     <!--注意dependencyManagement的使用-->
     <!--注意dependencyManagement和dependencies的区别-->
     <dependencies>
+        <!--                Spring Boot dependencies                -->
+
         <!--web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,6 +74,53 @@
             <scope>true</scope>
         </dependency>
 
+        <!--actuator-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+
+        <!--                Spring Cloud dependencies                -->
+
+        <!--Eureka Client-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <!--hystrix-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
+        <!--hystrix dashboard-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
+        </dependency>
+
+        <!---->
+        <!--<dependency>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-javanica</artifactId>
+            <version>1.5.18</version>
+        </dependency>-->
+
+        <!--feign-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!--ribbon-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+        </dependency>
+
+
+        <!--                Other dependencies                -->
         <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -86,19 +135,12 @@
             <version>3.0.0</version>
         </dependency>
 
-        <!--Eureka Client-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
         <!--fastjson-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.69</version>
         </dependency>
-
     </dependencies>
 
     <!--springCloud 版本控制,注意与springBoot版本的对应-->
