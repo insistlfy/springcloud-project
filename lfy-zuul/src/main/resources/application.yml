@@ -23,3 +23,17 @@ eureka:
     eviction-interval-timer-in-ms: 2000
     #Eureka的自我保护机制
     enable-replicated-request-compression: false
+
+
+zuul:
+  host:
+    connect-timeout-millis: 4000
+    socket-timeout-millis: 2000
+  routes:
+    lfy-first: #自定义名称
+      serviceId: lfy-first
+      path: /first/**
+      stripPrefix: false
+  set-content-length: true
+  add-host-header: true
+  ignored-services: '*' # 忽略所有为配置的service
