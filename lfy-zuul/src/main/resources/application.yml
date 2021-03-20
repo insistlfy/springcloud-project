@@ -26,6 +26,9 @@ eureka:
 
 
 zuul:
+  set-content-length: true
+  add-host-header: true
+  ignored-services: '*' # 忽略所有为配置的service
   host:
     connect-timeout-millis: 4000
     socket-timeout-millis: 2000
@@ -34,6 +37,7 @@ zuul:
       serviceId: lfy-first
       path: /first/**
       stripPrefix: false
-  set-content-length: true
-  add-host-header: true
-  ignored-services: '*' # 忽略所有为配置的service
+    lfy-second:
+      serviceId: lfy-second
+      path: /second/**
+      stripPrefix: false
