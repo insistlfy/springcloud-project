@@ -10,6 +10,10 @@ spring:
 eureka:
   instance:
     hostname: localhost
+    # 每隔5s发送一次心跳
+    lease-renewal-interval-in-seconds: 5
+    # 告知服务端10s还未收到心跳的话，就将该服务移除列表
+    lease-expiration-duration-in-seconds: 10
   client:
     #表示是否注册Eureka服务器,因为自身作为服务注册中心，所以为false
     register-with-eureka: true
