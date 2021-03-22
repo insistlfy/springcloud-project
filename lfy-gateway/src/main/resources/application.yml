@@ -44,6 +44,20 @@ eureka:
     enable-replicated-request-compression: false
 
 
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+        timeout:
+          enabled:false
+
+
+
+
 management:
   endpoints:
     web:

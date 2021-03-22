@@ -7,6 +7,9 @@ import org.lfy.first.api.servcie.IFirstService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * FirstController
  *
@@ -36,5 +39,15 @@ public class FirstController {
     @GetMapping("test2")
     public String test2(@RequestParam("id") Long id) {
         return firstService.second(id);
+    }
+
+    @ApiOperation("【FirstController --> test3】")
+    @GetMapping("test3")
+    public Object test3() {
+        Map<String, Object> result = new HashMap<>(4);
+        result.put("code", 200);
+        result.put("message", "success");
+        result.put("data", "Hello World");
+        return result;
     }
 }
