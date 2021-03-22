@@ -125,10 +125,6 @@
                     <artifactId>guava</artifactId>
                     <groupId>com.google.guava</groupId>
                 </exclusion>
-                <exclusion>
-                    <artifactId>HdrHistogram</artifactId>
-                    <groupId>org.hdrhistogram</groupId>
-                </exclusion>
             </exclusions>
         </dependency>
         <!--hystrix dashboard 熔断器仪表表-->

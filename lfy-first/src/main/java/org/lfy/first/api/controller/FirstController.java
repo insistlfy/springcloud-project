@@ -28,13 +28,12 @@ public class FirstController {
         return "Hello World!";
     }
 
-    public String test1FallBackMethod(){
+    public String test1FallBackMethod() {
         return null;
     }
 
     @ApiOperation("【FirstController --> test2】")
     @GetMapping("test2")
-
     public String test2(@RequestParam("id") Long id) {
         return firstService.second(id);
     }
