@@ -29,3 +29,17 @@ eureka:
     eviction-interval-timer-in-ms: 2000
     #Eureka的自我保护机制
     enable-replicated-request-compression: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      cors:
+        allowed-origins: '*'
+        allowed-methods: '*'
+  endpoint:
+    info:
+      enabled: true
+    health:
+      show-details: always
