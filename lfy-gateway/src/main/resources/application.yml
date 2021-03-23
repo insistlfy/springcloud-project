@@ -23,6 +23,15 @@ spring:
               args:
                 name: fallback
                 fallbackUrl: forward:/fallback
+        - id: lfy-second
+          uri: lb://lfy-second
+          predicates:
+            - Path=/second/**
+          filters:
+            - name: Hystrix
+              args:
+                name: fallback
+                fallbackUrl: forward:/fallback
 
 eureka:
   instance:
