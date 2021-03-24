@@ -45,8 +45,21 @@ spring:
               args:
                 # 需要进行重试的次数
                 retries: 1
+                # 用来指定哪些段的状态码需要重试，默认SERVER_ERROR，即5xx。
+                series:
+                  - SERVER_ERROR
                 # 返回哪个状态码需要进行重试
-                statuses: BAD_GATEWAY
+                statuses:
+                  - INTERNAL_SERVER_ERROR
+                  - BAD_GATEWAY
+                # 指定那些方法的请求需要重试，默认为GET
+                methods:
+                  - GET
+                  - POST
+                # 用于指定哪些异常需要重试，默认为java.io.IOException、java.util.concurrent.TimeoutException
+                exceptions:
+                  - java.io.IOException
+                  - java.util.concurrent.TimeoutException
                 backoff:
                   firstBackoff: 10ms
                   maxBackoff: 50ms
