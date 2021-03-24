@@ -41,6 +41,17 @@ spring:
           predicates:
             - Path=/second/**
           filters:
+            - name: Retry
+              args:
+                # 需要进行重试的次数
+                retries: 1
+                # 返回哪个状态码需要进行重试
+                statuses: BAD_GATEWAY
+                backoff:
+                  firstBackoff: 10ms
+                  maxBackoff: 50ms
+                  factor: 2
+                  basedOnPreviousValue: false
             - name: Hystrix
               args:
                 name: fallback

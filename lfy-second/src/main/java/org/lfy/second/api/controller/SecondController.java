@@ -28,4 +28,11 @@ public class SecondController {
     public Object test1(@RequestParam("time") Long time) {
         return secondService.test1(time);
     }
+
+    @ApiOperation("【SecondController --> test2】")
+    @GetMapping("test2")
+    public String test1() {
+        int i = 1 / 0;
+        return "success";
+    }
 }
