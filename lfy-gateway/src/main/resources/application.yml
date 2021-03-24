@@ -29,12 +29,10 @@ spring:
           predicates:
             - Path=/second/**
           filters:
-            - StripPrefix=1
-            - AddRequestHeader=X-Request-Foo,Bar
             - name: Hystrix
               args:
                 name: fallback
-                fallbackUrl: forward:/fallback
+                fallbackUri: forward:/fallback
 
 eureka:
   instance:
