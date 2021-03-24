@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: lfy-gateway
+  redis:
+    host: localhost
+    password: 123456
+    port: 6379
   cloud:
     gateway:
       discovery:
@@ -20,6 +24,14 @@ spring:
             # 路由规则
             - Path=/first/**
           filters:
+            - name: RequestRateLimiter
+              args:
+                # 每秒允许处理的请求数量
+                redis-rate-limiter.replenishRate: 1
+                # 每秒最大处理的请求数量
+                redis-rate-limiter.burstCapacity: 2
+                # 限流策略，对应策略的Bean
+                key-resolver: "#{@ipKeyResolver}"
             - name: Hystrix
               args:
                 name: fallbackcmd
@@ -53,15 +65,11 @@ eureka:
     #Eureka的自我保护机制
     enable-replicated-request-compression: false
 
-
-
+# 熔断器
 hystrix:
   metrics:
     enabled: true
     polling-interval-ms: 3000
-
-
-
 
 management:
   endpoints:
