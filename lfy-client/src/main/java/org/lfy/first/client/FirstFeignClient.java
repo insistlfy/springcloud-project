@@ -2,7 +2,9 @@ package org.lfy.first.client;
 
 import org.lfy.first.client.impl.FirstFeignClientImpl;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * FirstFeignClient
@@ -20,4 +22,13 @@ public interface FirstFeignClient {
      */
     @PostMapping("v1/test1")
     String test1();
+
+    /**
+     * test3
+     *
+     * @param time Long
+     * @return
+     */
+    @GetMapping("test3")
+    Object test3(@RequestParam("time") Long time);
 }

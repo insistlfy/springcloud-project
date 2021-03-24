@@ -1,5 +1,6 @@
 package org.lfy.second.api.servcie.impl;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.lfy.first.client.FirstFeignClient;
 import org.lfy.second.api.servcie.ISecondService;
@@ -20,9 +21,9 @@ public class SecondServiceImpl implements ISecondService {
     private FirstFeignClient firstFeignClient;
 
     @Override
-    public String test1() {
-        String result = firstFeignClient.test1();
-        log.info("FirstFeignClient --> test1, result : 【{}】。", result);
-        return result;
+    public Object test1(Long time) {
+        Object object = firstFeignClient.test3(time);
+        log.info("FirstFeignClient --> test3, result : 【{}】。", JSON.toJSONString(object));
+        return object;
     }
 }

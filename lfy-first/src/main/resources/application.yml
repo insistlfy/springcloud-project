@@ -30,6 +30,7 @@ eureka:
     #Eureka的自我保护机制
     enable-replicated-request-compression: false
 
+# Feign
 feign:
   hystrix:
     enabled: true

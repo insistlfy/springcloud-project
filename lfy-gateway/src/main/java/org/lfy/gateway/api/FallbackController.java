@@ -22,7 +22,7 @@ public class FallbackController {
         Map<String, Object> result = new HashMap<>(4);
         result.put("data", null);
         result.put("code", 500);
-        result.put("message", "Get Request fallback!");
+        result.put("message", "Gateway Request fallback!");
         return result;
     }
 }

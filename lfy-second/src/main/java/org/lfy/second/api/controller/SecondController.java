@@ -6,6 +6,7 @@ import org.lfy.second.api.servcie.ISecondService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -24,7 +25,7 @@ public class SecondController {
 
     @ApiOperation("【SecondController --> test1】")
     @GetMapping("test1")
-    public String test1() {
-        return secondService.test1();
+    public Object test1(@RequestParam("time") Long time) {
+        return secondService.test1(time);
     }
 }

@@ -11,7 +11,8 @@ public interface ISecondService {
     /**
      * test1
      *
-     * @return String
+     * @param time Long
+     * @return Object
      */
-    String test1();
+    Object test1(Long time);
 }
