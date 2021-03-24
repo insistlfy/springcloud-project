@@ -43,7 +43,13 @@ public class FirstController {
 
     @ApiOperation("【FirstController --> test3】")
     @GetMapping("test3")
-    public Object test3() {
+    public Object test3(@RequestParam("time") Long time) {
+
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Map<String, Object> result = new HashMap<>(4);
         result.put("code", 200);
         result.put("message", "success");

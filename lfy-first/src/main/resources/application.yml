@@ -30,6 +30,10 @@ eureka:
     #Eureka的自我保护机制
     enable-replicated-request-compression: false
 
+feign:
+  hystrix:
+    enabled: true
+
 management:
   endpoints:
     web:

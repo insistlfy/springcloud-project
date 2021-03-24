@@ -17,17 +17,20 @@ spring:
           #lb注册中心配置方式
           uri: lb://lfy-first
           predicates:
+            # 路由规则
             - Path=/first/**
           filters:
             - name: Hystrix
               args:
-                name: fallback
-                fallbackUrl: forward:/fallback
+                name: fallbackcmd
+                fallbackUri: 'forward:/fallback'
         - id: lfy-second
           uri: lb://lfy-second
           predicates:
             - Path=/second/**
           filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Request-Foo,Bar
             - name: Hystrix
               args:
                 name: fallback
@@ -55,14 +58,9 @@ eureka:
 
 
 hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 6000
-        timeout:
-          enabled:false
+  metrics:
+    enabled: true
+    polling-interval-ms: 3000
 
 
 

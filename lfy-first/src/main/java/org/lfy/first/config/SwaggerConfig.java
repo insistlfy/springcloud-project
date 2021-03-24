@@ -33,7 +33,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("基于Swagger3.0.0的接口文档-【EUREKA SERVER】")
+                .title("基于Swagger3.0.0的接口文档-【LFY FIRST】")
                 .description("LFY FIRST API")
                 .termsOfServiceUrl("https://www.baidu.com/")
                 .version("version ２.0")
