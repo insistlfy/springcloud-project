@@ -27,6 +27,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * ① ：preHandle：调用Controller某个方法之前
  * ② ：postHandle：Controller之后调用，视图渲染之前，如果控制器Controller出现了异常，则不会执行此方法
  * ③ ：afterCompletion：不管有没有异常，这个afterCompletion都会被调用，用于资源清理
+ * ④ ：@PostConstruct修饰的方法会在服务器加载Servlet的时候运行，并且只会被服务器执行一次。PostConstruct在构造函数之后执行，init（）方法之前执行。
+ * 备注 ： Spring中Constructor、@Autowired、@PostConstruct的顺序
  *
  * @author lfy
  * @date 2021/3/29
