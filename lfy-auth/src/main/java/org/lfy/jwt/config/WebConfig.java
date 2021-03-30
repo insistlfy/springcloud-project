@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 /**
  * WebConfig
+ * 拦截器配置类
  *
  * @author lfy
  * @date 2021/3/30

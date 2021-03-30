@@ -47,7 +47,7 @@ public class JwtConfig {
     private String permitAll;
 
     @ApiModelProperty(value = "需要校验的uri")
-    private String authUrl;
+    private String authUri;
 
     /**
      * 生成acceptToken

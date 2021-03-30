@@ -1,6 +1,7 @@
 package org.lfy.jwt.interceptor;
 
 import io.jsonwebtoken.Claims;
+import lfy.constants.BaseConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.lfy.jwt.config.JwtConfig;
@@ -10,9 +11,11 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,6 +24,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * JwtAuthTokenInterceptor
  * 配置Token拦截器
+ * ① ：preHandle：调用Controller某个方法之前
+ * ② ：postHandle：Controller之后调用，视图渲染之前，如果控制器Controller出现了异常，则不会执行此方法
+ * ③ ：afterCompletion：不管有没有异常，这个afterCompletion都会被调用，用于资源清理
  *
  * @author lfy
  * @date 2021/3/29
@@ -37,27 +43,20 @@ public class JwtAuthTokenInterceptor extends HandlerInterceptorAdapter {
     /**
      * permit url
      */
-    private final List<String> permitAllUriList;
+    private List<String> permitAllUriList = new ArrayList<>();
 
     /**
      * auth uri
      */
-    private final List<String> authAllUriList;
-
-//    @Value("${jwt.permit-all}")
-//    private String permitAllUri;
-//
-//    @Value("${jwt.auth-uri}")
-//    private String authAllUri;
+    private List<String> authAllUriList = new ArrayList<>();
 
     @Autowired
     private JwtConfig jwtConfig;
 
-    public JwtAuthTokenInterceptor() {
-//        this.permitAllUriList = Arrays.asList(jwtConfig.getPermitAll().split(BaseConstants.SPLIT_COMMA));
-//        this.authAllUriList = Arrays.asList(jwtConfig.getAuthUrl().split(BaseConstants.SPLIT_COMMA));
-        this.permitAllUriList = new ArrayList<>();
-        this.authAllUriList = new ArrayList<>();
+    @PostConstruct
+    public void init() {
+        this.permitAllUriList = Arrays.asList(jwtConfig.getPermitAll().split(BaseConstants.SPLIT_COMMA));
+        this.authAllUriList = Arrays.asList(jwtConfig.getAuthUri().split(BaseConstants.SPLIT_COMMA));
     }
 
     @Override
