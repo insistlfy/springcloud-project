@@ -49,7 +49,6 @@ public class JwtConfig {
     @ApiModelProperty(value = "需要校验的uri")
     private String authUrl;
 
-
     /**
      * 生成acceptToken
      *
@@ -121,7 +120,7 @@ public class JwtConfig {
      * @param token String
      * @return Claims
      */
-    protected Claims getTokenClaim(String token) {
+    public Claims getTokenClaim(String token) {
         try {
             return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         } catch (Exception e) {
