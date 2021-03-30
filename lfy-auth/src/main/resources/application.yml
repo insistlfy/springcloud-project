@@ -1,0 +1,42 @@
+server:
+  port: 9003
+
+spring:
+  application:
+    name: lfy-auth
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    #表示是否注册Eureka服务器,因为自身作为服务注册中心，所以为false
+    register-with-eureka: true
+    #从Eureka服务端获取注册信息的时间间隔，单位：秒
+    registry-fetch-interval-seconds: 30
+    #是否从Eureka服务端获取注册信息
+    fetch-registry: true
+    service-url:
+      defaultZone: http://admin:admin@${eureka.instance.hostname}:8000/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+    #清理间隔，一旦服务down掉，则默认60秒（此处2秒）才注销该服务
+    eviction-interval-timer-in-ms: 2000
+    #Eureka的自我保护机制
+    enable-replicated-request-compression: false
+
+# jwt configuration
+jwt:
+  # 存放Token的Header key值
+  token: token
+  # 自定义密钥，加盐
+  secret: mySecret
+  # 超时时间 单位秒
+  expiration: 3600
+  # accessToken超时时间 单位秒
+  access-token: 3600
+  # 刷新token时间 单位秒
+  refresh-token: 3600
+  # 允许访问的uri
+  permit-all: /oauth/**,/login/**,/logout/**
+  # 需要校验的uri
+  auth-uri: /api/**

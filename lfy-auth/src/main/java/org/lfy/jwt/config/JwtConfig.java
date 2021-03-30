@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
 import java.util.Date;
@@ -16,13 +16,15 @@ import java.util.UUID;
 
 /**
  * JwtConfig
+ * ① ： @ConfigurationProperties，向Spring Boot声明该类中的所有属性和配置文件中相关的配置进行绑定。
+ * ② ：
  *
  * @author lfy
  * @date 2021/3/26
  **/
 @Data
 @Slf4j
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "jwt")
 public class JwtConfig {
 
@@ -34,9 +36,6 @@ public class JwtConfig {
 
     @ApiModelProperty(value = "超时时间 单位秒")
     private Duration expiration = Duration.ofMinutes(3600);
-
-    @ApiModelProperty(value = "自定义token 前缀字符")
-    private String tokenPrefix;
 
     @ApiModelProperty(value = "accessToken超时时间 单位秒")
     private Duration accessToken = Duration.ofMinutes(3600);
@@ -50,6 +49,23 @@ public class JwtConfig {
     @ApiModelProperty(value = "需要校验的uri")
     private String authUrl;
 
+
+    /**
+     * 生成acceptToken
+     *
+     * @param username String
+     * @return String
+     */
+    public String generateToken(String username) {
+        return Jwts.builder()
+                .setId(UUID.randomUUID().toString())
+                .setHeaderParam("typ", "JWT")
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(generateExpirationDate(expiration.toMillis()))
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
+    }
 
     /**
      * 生成acceptToken
@@ -79,7 +95,7 @@ public class JwtConfig {
     public boolean validateToken(String username, String token) {
         try {
             final String userId = getUserIdFromClaims(token);
-            return null != getTokenClaim(token) && userId.equals(username) && !tokenExpired(token);
+            return null != getTokenClaim(token) && userId.equals(username) && !isTokenExpired(token);
         } catch (Exception e) {
             throw new IllegalStateException("Invalid Token!" + e);
         }
@@ -93,7 +109,7 @@ public class JwtConfig {
      */
     public boolean validateToken(String token) {
         try {
-            return null != getTokenClaim(token) && !tokenExpired(token);
+            return null != getTokenClaim(token) && !isTokenExpired(token);
         } catch (Exception e) {
             throw new IllegalStateException("Invalid Token!" + e);
         }
@@ -105,7 +121,7 @@ public class JwtConfig {
      * @param token String
      * @return Claims
      */
-    private Claims getTokenClaim(String token) {
+    protected Claims getTokenClaim(String token) {
         try {
             return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         } catch (Exception e) {
@@ -119,7 +135,7 @@ public class JwtConfig {
      * @param token String
      * @return boolean
      */
-    public boolean tokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return getTokenClaim(token).getExpiration().before(new Date());
     }
 

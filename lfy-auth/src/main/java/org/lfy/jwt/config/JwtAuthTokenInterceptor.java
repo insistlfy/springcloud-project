@@ -1,16 +1,18 @@
 package org.lfy.jwt.config;
 
+import io.jsonwebtoken.Claims;
+import lfy.constants.BaseConstants;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -18,14 +20,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * JwtAuthTokenFilter
+ * JwtAuthTokenInterceptor
+ * 配置Token拦截器
  *
  * @author lfy
  * @date 2021/3/29
  **/
 @Slf4j
-public class JwtAuthTokenFilter extends OncePerRequestFilter {
-
+@Component
+public class JwtAuthTokenInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * URL 缓存
@@ -42,22 +45,40 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
      */
     private final List<String> authAllUriList;
 
+//    @Value("${jwt.permit-all}")
+//    private String permitAllUri;
+//
+//    @Value("${jwt.auth-uri}")
+//    private String authAllUri;
 
     @Autowired
     private JwtConfig jwtConfig;
 
-    public JwtAuthTokenFilter() {
-        this.permitAllUriList = Arrays.asList(jwtConfig.getPermitAll().split(","));
-        this.authAllUriList = Arrays.asList(jwtConfig.getAuthUrl().split(","));
+    public JwtAuthTokenInterceptor() {
+//        this.permitAllUriList = Arrays.asList(jwtConfig.getPermitAll().split(BaseConstants.SPLIT_COMMA));
+//        this.authAllUriList = Arrays.asList(jwtConfig.getAuthUrl().split(BaseConstants.SPLIT_COMMA));
+        this.permitAllUriList = new ArrayList<>();
+        this.authAllUriList = new ArrayList<>();
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
         if (!isAllowUri(request)) {
-            // todo
+            final String token = request.getHeader(jwtConfig.getToken());
+            log.info("Auth Token :【{}】", token);
+            if (StringUtils.isBlank(token)) {
+                throw new RuntimeException("Unable to get JWT Token");
+            }
+
+            if (!jwtConfig.validateToken(token)) {
+                throw new RuntimeException("Invalid Token");
+            }
+
+            Claims claims = jwtConfig.getTokenClaim(token);
+            request.setAttribute("username", claims.getSubject());
         }
-        chain.doFilter(request, response);
+        return true;
     }
 
     private boolean isAllowUri(HttpServletRequest request) {
