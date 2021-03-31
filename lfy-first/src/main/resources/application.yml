@@ -6,6 +6,10 @@ server:
 spring:
   application:
     name: lfy-first
+  redis:
+    host: localhost
+    password: 123456
+    port: 6379
 
 eureka:
   instance:

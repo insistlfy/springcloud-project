@@ -7,6 +7,10 @@ spring:
     host: localhost
     password: 123456
     port: 6379
+    timeout:
+    jedis:
+      pool:
+        max-idle:
   cloud:
     gateway:
       discovery:
@@ -106,3 +110,20 @@ management:
   endpoint:
     health:
       show-details: always
+
+# jwt configuration
+jwt:
+  # 存放Token的Header key值
+  token: token
+  # 自定义密钥，加盐
+  secret: mySecret
+  # 超时时间 单位秒
+  expiration: 3600
+  # accessToken超时时间 单位秒
+  access-token: 3600
+  # 刷新token时间 单位秒
+  refresh-token: 3600
+  # 允许访问的uri
+  permit-all: /oauth/**,/login/**,/logout/**
+  # 需要校验的uri
+  auth-uri: /api/**
