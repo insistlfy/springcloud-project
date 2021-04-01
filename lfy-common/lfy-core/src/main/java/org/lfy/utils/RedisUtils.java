@@ -1,7 +1,6 @@
 package org.lfy.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.xml.internal.bind.v2.TODO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,6 @@ public class RedisUtils {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    //========================common========================
-
     /**
      * 指定缓存失效时间
      *
@@ -34,10 +31,10 @@ public class RedisUtils {
      * @param time long
      * @return boolean
      */
-    public boolean expire(String key, long time) {
+    public boolean expire(String cacheName, String key, long time) {
         try {
             if (time > 0) {
-                redisTemplate.expire(key, time, TimeUnit.SECONDS);
+                redisTemplate.expire(redisKey(cacheName, key).toLowerCase(), time, TimeUnit.SECONDS);
             }
             return true;
         } catch (Exception e) {
@@ -49,22 +46,31 @@ public class RedisUtils {
     /**
      * 根据key 获取过期时间
      *
-     * @param key String
+     * @param cacheName String
+     * @param key       String
      * @return long
      */
-    public long getExpire(String key) {
-        return redisTemplate.getExpire(key, TimeUnit.SECONDS);
+    public long getExpire(String cacheName, String key) {
+        if (StringUtils.isAnyBlank(cacheName, key)) {
+            throw new RuntimeException("RedisUtils-hasKey, cacheName or key is null");
+        }
+        return redisTemplate.getExpire(redisKey(cacheName, key).toLowerCase(), TimeUnit.SECONDS);
     }
 
     /**
      * 判断key是否存在
      *
-     * @param key 键
-     * @return true:存在 , false:不存在
+     * @param cacheName String
+     * @param key       String
+     * @return boolean
      */
-    public boolean hasKey(String key) {
+    public boolean hasKey(String cacheName, String key) {
+
+        if (StringUtils.isAnyBlank(cacheName, key)) {
+            throw new RuntimeException("RedisUtils-hasKey, cacheName or key is null");
+        }
         try {
-            return redisTemplate.hasKey(key);
+            return redisTemplate.hasKey(redisKey(cacheName, key).toLowerCase());
         } catch (Exception e) {
             log.error("RedisUtils-hasKey Error...", e);
             return false;
@@ -86,8 +92,6 @@ public class RedisUtils {
         }
     }
 
-    //========================String========================
-
     /**
      * 普通缓存获取
      *
@@ -101,7 +105,7 @@ public class RedisUtils {
         }
 
         String redisKey = redisKey(cacheName, key).toLowerCase();
-        if (!hasKey(redisKey)) {
+        if (!hasKey(cacheName, key)) {
             log.error("This redisKey is not exist");
             return null;
         }
@@ -121,16 +125,17 @@ public class RedisUtils {
      * @param cacheName String
      * @param key       String
      * @param v         Object
-     * @return boolean
      */
-    public <V> boolean set(String cacheName, String key, V v) {
-        try {
-            redisTemplate.opsForValue().set(redisKey(cacheName, key).toLowerCase(), v);
-            return true;
-        } catch (Exception e) {
-            log.error("RedisUtils-set Error...", e);
-            return false;
+    public <V> void set(String cacheName, String key, V v) {
+
+        if (null == v || StringUtils.isAnyBlank(cacheName, key)) {
+            throw new RuntimeException("RedisUtils-get, cacheName or key is null");
         }
+
+        BoundValueOperations<String, V> valueOperations =
+                redisTemplate.boundValueOps(redisKey(cacheName, key).toLowerCase());
+        valueOperations.set(v);
+
     }
 
     /**
@@ -140,22 +145,20 @@ public class RedisUtils {
      * @param key       键
      * @param v         值
      * @param time      时间(秒) time要大于0 如果time小于等于0 将设置无限期
-     * @return true：成功 ， false：失败
      */
-    public <V> boolean set(String cacheName, String key, V v, long time) {
-        try {
-            if (time > 0) {
-                redisTemplate.opsForValue().set(redisKey(cacheName, key).toLowerCase(), v, time, TimeUnit.SECONDS);
-            } else {
-                set(cacheName, key, v);
-            }
-            return true;
-        } catch (Exception e) {
-            log.error("RedisUtils-set Error...", e);
-            return false;
+    public <V> void set(String cacheName, String key, V v, long time) {
+
+        if (time < 0 || null == v || StringUtils.isAnyBlank(cacheName, key)) {
+            throw new RuntimeException("RedisUtils-get, cacheName or key is null");
         }
+
+        BoundValueOperations<String, V> valueOperations =
+                redisTemplate.boundValueOps(redisKey(cacheName, key).toLowerCase());
+        valueOperations.set(v, time, TimeUnit.SECONDS);
     }
 
+
+    // TODO
 
     /**
      * 规范生成key
