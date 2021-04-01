@@ -17,7 +17,7 @@ import java.util.Map;
  * @date 2021/3/18
  **/
 @RestController
-@RequestMapping("/v1/")
+@RequestMapping("/v1/api/")
 @Api(tags = "【FirstController】")
 public class FirstController {
 

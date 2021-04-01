@@ -1,7 +1,6 @@
 package org.lfy.first.api.controller;
 
 import io.swagger.annotations.Api;
-import org.apache.commons.lang3.StringUtils;
 import org.lfy.config.RedisExpireSpaceConfig;
 import org.lfy.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021/3/31
  **/
 @RestController
-@RequestMapping("/v1/")
+@RequestMapping("/v1/api/")
 @Api(tags = "【RedisController】")
 public class RedisController {
 

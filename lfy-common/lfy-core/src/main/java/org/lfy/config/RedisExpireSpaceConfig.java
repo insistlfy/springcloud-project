@@ -27,6 +27,8 @@ public final class RedisExpireSpaceConfig {
     public static final String DAY_10 = "DAY_10";
     public static final String DAY_30 = "DAY_30";
 
+    public static final String COMMON_URI = "COMMON_URI";
+
     /**
      * 过期时间键值对 k-v : 名称-过期时间(分钟)
      */
@@ -47,6 +49,8 @@ public final class RedisExpireSpaceConfig {
             put(DAY_3, 60 * 24 * 3);
             put(DAY_10, 60 * 24 * 10);
             put(DAY_30, 60 * 24 * 30);
+
+            put(COMMON_URI, 60);
         }
     };
 }

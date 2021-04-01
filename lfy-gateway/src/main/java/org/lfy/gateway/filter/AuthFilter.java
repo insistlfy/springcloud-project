@@ -4,14 +4,15 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.lfy.config.RedisExpireSpaceConfig;
 import org.lfy.constants.BaseConstants;
 import org.lfy.gateway.config.JwtConfig;
+import org.lfy.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -26,6 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -49,9 +51,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
      */
     private List<String> authAllUriList = new ArrayList<>();
 
-
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisUtils redisUtils;
 
     @Autowired
     private JwtConfig jwtConfig;
@@ -114,15 +115,12 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     private boolean isAllowUri(ServerHttpRequest request) {
         String uri = request.getURI().getPath();
-//        if (URI_CACHE_MAP.containsKey(uri)) {
-//            //缓存中有数据，直接取
-//            return URI_CACHE_MAP.get(uri);
-//        }
-        // todo redis
+        if (redisUtils.hasKey(RedisExpireSpaceConfig.COMMON_URI, uri)) {
+            return redisUtils.get(RedisExpireSpaceConfig.COMMON_URI, uri, Boolean.class);
+        }
         boolean flag = checkRequestUri(uri);
         //将数据存入缓存
-//        URI_CACHE_MAP.put(uri, flag);
-        //todo redis
+        redisUtils.set(RedisExpireSpaceConfig.COMMON_URI, uri, flag, TimeUnit.DAYS, 1);
         return flag;
     }
 

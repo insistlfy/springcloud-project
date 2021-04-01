@@ -157,6 +157,26 @@ public class RedisUtils {
         valueOperations.set(v, time, TimeUnit.SECONDS);
     }
 
+    /**
+     * 普通缓存放入并设置时间
+     *
+     * @param cacheName String
+     * @param key       key
+     * @param v         V
+     * @param unit      TimeUnit
+     * @param time      时间(秒) time要大于0 如果time小于等于0 将设置无限期
+     */
+    public <V> void set(String cacheName, String key, V v, TimeUnit unit, long time) {
+
+        if (time < 0 || null == v || StringUtils.isAnyBlank(cacheName, key)) {
+            throw new RuntimeException("RedisUtils-get, cacheName or key is null");
+        }
+
+        BoundValueOperations<String, V> valueOperations =
+                redisTemplate.boundValueOps(redisKey(cacheName, key).toLowerCase());
+        valueOperations.set(v, time, unit);
+    }
+
 
     // TODO
 
@@ -169,5 +189,9 @@ public class RedisUtils {
      */
     private String redisKey(String cacheName, String redisKey) {
         return cacheName + "::" + redisKey;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(JSON.parseObject(String.valueOf(true), Boolean.class));
     }
 }

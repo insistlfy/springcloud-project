@@ -7,10 +7,12 @@ spring:
     host: localhost
     password: 123456
     port: 6379
-    timeout:
-    jedis:
-      pool:
-        max-idle:
+    # 最大连接数
+    max-active: 100
+    # 最小空闲连接数
+    min-idle: 20
+    # 当池内没有可用连接时，最大等待时间
+    max-wait: 10000
   cloud:
     gateway:
       discovery:
@@ -28,14 +30,14 @@ spring:
             # 路由规则
             - Path=/first/**
           filters:
-            - name: RequestRateLimiter
-              args:
-                # 每秒允许处理的请求数量
-                redis-rate-limiter.replenishRate: 1
-                # 每秒最大处理的请求数量
-                redis-rate-limiter.burstCapacity: 2
-                # 限流策略，对应策略的Bean
-                key-resolver: "#{@ipKeyResolver}"
+#            - name: RequestRateLimiter
+#              args:
+#                # 每秒允许处理的请求数量
+#                redis-rate-limiter.replenishRate: 1
+#                # 每秒最大处理的请求数量
+#                redis-rate-limiter.burstCapacity: 2
+#                # 限流策略，对应策略的Bean
+#                key-resolver: "#{@ipKeyResolver}"
             - name: Hystrix
               args:
                 name: fallbackcmd
@@ -124,6 +126,6 @@ jwt:
   # 刷新token时间 单位秒
   refresh-token: 3600
   # 允许访问的uri
-  permit-all: /oauth/**,/login/**,/logout/**
+  permit-all: /oauth/**,/login/**,/logout/**,/**/swagger/**
   # 需要校验的uri
-  auth-uri: /api/**
+  auth-uri: /**/api/**
