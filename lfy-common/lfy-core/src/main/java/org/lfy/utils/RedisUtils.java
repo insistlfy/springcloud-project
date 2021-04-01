@@ -1,8 +1,11 @@
 package org.lfy.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.sun.xml.internal.bind.v2.TODO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -91,20 +94,38 @@ public class RedisUtils {
      * @param key String
      * @return Object
      */
-    public Object get(String key) {
-        return null == key ? null : redisTemplate.opsForValue().get(key);
+    public <V> V get(String cacheName, String key, Class<V> clazz) {
+
+        if (StringUtils.isAnyBlank(cacheName, key)) {
+            throw new RuntimeException("RedisUtils-get, cacheName or key is null");
+        }
+
+        String redisKey = redisKey(cacheName, key).toLowerCase();
+        if (!hasKey(redisKey)) {
+            log.error("This redisKey is not exist");
+            return null;
+        }
+        BoundValueOperations<String, V> valueOperations = redisTemplate.boundValueOps(redisKey);
+        if (null == valueOperations.get()) {
+            return null;
+        }
+        if (clazz == String.class) {
+            return valueOperations.get();
+        }
+        return JSON.parseObject(String.valueOf(valueOperations.get()), clazz);
     }
 
     /**
      * 普通缓存放入
      *
-     * @param key   String
-     * @param value Object
+     * @param cacheName String
+     * @param key       String
+     * @param v         Object
      * @return boolean
      */
-    public boolean set(String key, Object value) {
+    public <V> boolean set(String cacheName, String key, V v) {
         try {
-            redisTemplate.opsForValue().set(key, value);
+            redisTemplate.opsForValue().set(redisKey(cacheName, key).toLowerCase(), v);
             return true;
         } catch (Exception e) {
             log.error("RedisUtils-set Error...", e);
@@ -115,22 +136,35 @@ public class RedisUtils {
     /**
      * 普通缓存放入并设置时间
      *
-     * @param key   键
-     * @param value 值
-     * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
+     * @param cacheName String
+     * @param key       键
+     * @param v         值
+     * @param time      时间(秒) time要大于0 如果time小于等于0 将设置无限期
      * @return true：成功 ， false：失败
      */
-    public boolean set(String key, Object value, long time) {
+    public <V> boolean set(String cacheName, String key, V v, long time) {
         try {
             if (time > 0) {
-                redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(redisKey(cacheName, key).toLowerCase(), v, time, TimeUnit.SECONDS);
             } else {
-                set(key, value);
+                set(cacheName, key, v);
             }
             return true;
         } catch (Exception e) {
             log.error("RedisUtils-set Error...", e);
             return false;
         }
+    }
+
+
+    /**
+     * 规范生成key
+     *
+     * @param cacheName String
+     * @param redisKey  String
+     * @return String
+     */
+    private String redisKey(String cacheName, String redisKey) {
+        return cacheName + "::" + redisKey;
     }
 }

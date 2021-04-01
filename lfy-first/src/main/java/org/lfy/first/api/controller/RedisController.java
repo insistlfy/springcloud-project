@@ -1,6 +1,7 @@
 package org.lfy.first.api.controller;
 
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.lfy.config.RedisExpireSpaceConfig;
 import org.lfy.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,12 @@ public class RedisController {
     }
 
     @PostMapping("02")
-    public String test03(@RequestParam("userId") Long userId) {
+    public Long test03(@RequestParam("userId") Long userId) {
 
-        Object obj = redisUtils.get("userId");
+        Long obj = redisUtils.get("common", "userId", Long.class);
         if (null == obj) {
-            redisUtils.set("userId", userId, 60);
+            redisUtils.set("common", "userId", userId, 60);
         }
-        return String.valueOf(userId);
+        return userId;
     }
 }
