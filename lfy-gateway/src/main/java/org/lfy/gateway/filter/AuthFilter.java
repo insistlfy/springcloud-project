@@ -2,9 +2,9 @@ package org.lfy.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
-import lfy.constants.BaseConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.lfy.constants.BaseConstants;
 import org.lfy.gateway.config.JwtConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;

@@ -1,4 +1,4 @@
-package lfy.constants;
+package org.lfy.constants;
 
 /**
  * BaseConstants

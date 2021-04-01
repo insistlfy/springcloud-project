@@ -1,4 +1,4 @@
-package lfy.config;
+package org.lfy.config;
 
 import java.util.HashMap;
 

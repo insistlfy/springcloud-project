@@ -1,3 +1,6 @@
-## lfy-zuul
-1. Zuul来自Netflix，提供身份验证，安全校验，限流，动态路由等，但是性能一般；
-2. 
+## SpringCloud Project
+
+> * ### Redis
+> > * [学习链接1](https://blog.csdn.net/qq_21078159/article/details/107180642)
+> > * [学习链接2](https://blog.csdn.net/zhuyangguang0101/article/details/108095476)
+> > * [学习链接3](https://blog.csdn.net/weixin_42739473/article/details/87873823)
