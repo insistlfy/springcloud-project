@@ -78,6 +78,25 @@ public class RedisUtils {
     }
 
     /**
+     * 判断key是否存在
+     *
+     * @param key String
+     * @return boolean
+     */
+    public boolean hasKey(String key) {
+
+        if (StringUtils.isBlank(key)) {
+            throw new RuntimeException("RedisUtils-hasKey, key is null");
+        }
+        try {
+            return redisTemplate.hasKey(key);
+        } catch (Exception e) {
+            log.error("RedisUtils-hasKey Error...", e);
+            return false;
+        }
+    }
+
+    /**
      * 删除缓存
      *
      * @param key 可以传一个值 或多个
@@ -98,6 +117,24 @@ public class RedisUtils {
      * @param key String
      * @return Object
      */
+    public Object get(String key) {
+
+        if (StringUtils.isBlank(key)) {
+            throw new RuntimeException("RedisUtils-get, key is null");
+        }
+        if (!hasKey(key)) {
+            log.error("This redisKey is not exist");
+            return null;
+        }
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    /**
+     * 普通缓存获取
+     *
+     * @param key String
+     * @return V
+     */
     public <V> V get(String cacheName, String key, Class<V> clazz) {
 
         if (StringUtils.isAnyBlank(cacheName, key)) {
@@ -117,6 +154,52 @@ public class RedisUtils {
             return valueOperations.get();
         }
         return JSON.parseObject(String.valueOf(valueOperations.get()), clazz);
+    }
+
+
+    /**
+     * 普通缓存放入
+     *
+     * @param key String
+     * @param v   Object
+     */
+    public <V> void set(String key, V v) {
+
+        if (null == v || StringUtils.isBlank(key)) {
+            throw new RuntimeException("RedisUtils-get, key is null");
+        }
+        redisTemplate.opsForValue().set(key, v);
+    }
+
+    /**
+     * 普通缓存放入
+     *
+     * @param key  String
+     * @param v    Object
+     * @param time long
+     */
+    public <V> void set(String key, V v, long time) {
+
+        if (null == v || StringUtils.isBlank(key)) {
+            throw new RuntimeException("RedisUtils-get, key or value is null");
+        }
+        redisTemplate.opsForValue().set(key, v, time, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 普通缓存放入
+     *
+     * @param key  String
+     * @param v    Object
+     * @param unit TimeUnit
+     * @param time long
+     */
+    public <V> void set(String key, V v, TimeUnit unit, long time) {
+
+        if (null == v || StringUtils.isBlank(key)) {
+            throw new RuntimeException("RedisUtils-get, key is null");
+        }
+        redisTemplate.opsForValue().set(key, v, time, unit);
     }
 
     /**

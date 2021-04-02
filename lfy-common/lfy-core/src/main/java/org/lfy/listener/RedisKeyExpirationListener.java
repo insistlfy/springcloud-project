@@ -3,6 +3,7 @@ package org.lfy.listener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.lfy.constants.BaseConstants;
+import org.lfy.utils.RedisUtils;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
@@ -26,7 +27,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
     }
 
     @Resource
-    private RedisTemplate redisTemplate;
+    private RedisUtils redisUtils;
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
@@ -40,6 +41,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
             if (StringUtils.isBlank(prefixKey)) {
                 return;
             }
+            // TODO
         }
 
         //TODO

@@ -140,4 +140,9 @@ public class AuthFilter implements GlobalFilter, Ordered {
         });
         return filter.get();
     }
+
+    public static void main(String[] args) {
+        PathMatcher pathMatcher = new AntPathMatcher();
+        System.out.println(pathMatcher.match("/**/oauth/**", "/v1/first/oauth/api/01"));
+    }
 }

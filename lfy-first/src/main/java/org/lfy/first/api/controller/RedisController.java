@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021/3/31
  **/
 @RestController
-@RequestMapping("/v1/api/")
+@RequestMapping("/v1/oauth/")
 @Api(tags = "【RedisController】")
 public class RedisController {
 
