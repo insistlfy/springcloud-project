@@ -2,6 +2,7 @@ package org.lfy.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.lfy.constants.BaseConstants;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
@@ -34,10 +35,11 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
         log.info("redis-key expire: 【{}】 ", redisKey);
 
         //取出自定义业务前缀
-        String prefixKey = redisKey.substring(0, redisKey.indexOf(":"));
-
-        if (StringUtils.isBlank(prefixKey)) {
-            return;
+        if (redisKey.contains(BaseConstants.SPLIT_DOUBLE_COLON)) {
+            String prefixKey = redisKey.substring(0, redisKey.indexOf(":"));
+            if (StringUtils.isBlank(prefixKey)) {
+                return;
+            }
         }
 
         //TODO

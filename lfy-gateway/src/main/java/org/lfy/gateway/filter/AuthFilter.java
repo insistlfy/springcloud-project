@@ -4,10 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.lfy.config.RedisExpireSpaceConfig;
-import org.lfy.constants.BaseConstants;
+import org.lfy.gateway.config.GatewayRedisUtils;
 import org.lfy.gateway.config.JwtConfig;
-import org.lfy.utils.RedisUtils;
+import org.lfy.gateway.constants.GatewayConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -52,15 +51,15 @@ public class AuthFilter implements GlobalFilter, Ordered {
     private List<String> authAllUriList = new ArrayList<>();
 
     @Autowired
-    private RedisUtils redisUtils;
+    private GatewayRedisUtils redisUtils;
 
     @Autowired
     private JwtConfig jwtConfig;
 
     @PostConstruct
     public void init() {
-        this.permitAllUriList = Arrays.asList(jwtConfig.getPermitAll().split(BaseConstants.SPLIT_COMMA));
-        this.authAllUriList = Arrays.asList(jwtConfig.getAuthUri().split(BaseConstants.SPLIT_COMMA));
+        this.permitAllUriList = Arrays.asList(jwtConfig.getPermitAll().split(GatewayConstants.SPLIT_COMMA));
+        this.authAllUriList = Arrays.asList(jwtConfig.getAuthUri().split(GatewayConstants.SPLIT_COMMA));
     }
 
     @Override
@@ -115,12 +114,12 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     private boolean isAllowUri(ServerHttpRequest request) {
         String uri = request.getURI().getPath();
-        if (redisUtils.hasKey(RedisExpireSpaceConfig.COMMON_URI, uri)) {
-            return redisUtils.get(RedisExpireSpaceConfig.COMMON_URI, uri, Boolean.class);
+        if (redisUtils.hasKey(GatewayConstants.COMMON_URI, uri)) {
+            return redisUtils.get(GatewayConstants.COMMON_URI, uri, Boolean.class);
         }
         boolean flag = checkRequestUri(uri);
         //将数据存入缓存
-        redisUtils.set(RedisExpireSpaceConfig.COMMON_URI, uri, flag, TimeUnit.DAYS, 1);
+        redisUtils.set(GatewayConstants.COMMON_URI, uri, flag, TimeUnit.DAYS, 1);
         return flag;
     }
 

@@ -21,6 +21,7 @@ public final class BaseConstants {
     public static final String SPLIT_HYPHEN = "-";
     public static final String SPLIT_POUND = "#";
     public static final String SPLIT_COLON = ":";
+    public static final String SPLIT_DOUBLE_COLON = "::";
     public static final String SPLIT_SPACE = " ";
     public static final String SPLIT_UNDERLINE = "_";
     public static final String SPLIT_VERTICAL = "|";
