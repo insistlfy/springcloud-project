@@ -1,5 +1,14 @@
 ## SpringCloud Project
 
+### springBoot和springCloud大版本对应
+|springBoot版本|SpringCloud版本
+|----|----|
+2.2.x|Hoxton
+2.1.x|Greenwich
+2.0.x|Finchley
+1.5.x|Edgware
+1.5.x|Dalston
+
 > * ### Redis
 > > * [学习链接1](https://blog.csdn.net/qq_21078159/article/details/107180642)
 > > * [学习链接2](https://blog.csdn.net/zhuyangguang0101/article/details/108095476)
